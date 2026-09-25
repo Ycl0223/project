@@ -164,29 +164,7 @@
 
 ---
 
-## 7. 湿实验重组表达载体工程构建（pET-28a 系统）
-
-针对 Rank 1 与 Rank 2 设计了面向 *E. coli* BL21(DE3) 表达系统的完整质粒构建方案，序列保存在 `results/cd8_binders_dna_orders.fasta`：
-- **载体骨架**：pET-28a(+)
-- **克隆位点**：5' 端 NdeI（`CATATG`，含起始 ATG），3' 端 XhoI（`CTCGAG`）
-- **标签与酶切位点**：N 端 6×His-Tag + GS 连接子 + TEV 蛋白酶识别位点（`ENLYFQ/G`，酶切后彻底脱除标签恢复原始成熟肽，避免干扰结合）
-- **翻译终止策略**：串联双重终止密码子（`TAATGA`）
-- **保护碱基设计**：5' 端附加 `ggaattc`，3' 端附加 `accggg`
-
-### 构建体详细生物物理参数
-1. **Rank 1 构建体 (`pET28a_CD8_Binder_Rank1_IgLike`)**：
-   - 含标签前体：136 aa，理论分子量 14.53 kDa，理论等电点 pI 5.79，理论摩尔消光系数 $\varepsilon_{280} = 29,910\text{ M}^{-1}\text{cm}^{-1}$，编码区 GC 含量 52.3%；
-   - DNA 订单序列（5' → 3'，全长 428 bp）：
-     `ggaattccatatgGGTAGCAGCCATCATCATCACCACCATAGCAGCGGCGAAAACCTGTATTTTCAGGGCAGCTTTTTTAGCGTTAGCCCGCTGAACACCACCTATAAACTGGGCGAAACCGTGGTTCTGAGCGATACCAGCCTGCTGCCGGCAGCAAGCaccggccagcagtggtggtttcaaccgagcggcctgaccaccccgccgacctttctggcaagcgtggatagcagcgcagttacctatgcaagcggcgtggataccagccgcattagcgcgagccgcagcggccgcaccagcaccctgaccattaaaaacctgcaaccggaagatgcaggctattattttgcacaacaaaccagcggcggcgttacctatagcagcgatccgattctggttaaactgccgagcTAATGActcgagaccggg`
-
-2. **Rank 2 构建体 (`pET28a_CD8_Binder_Rank2_HelixBundle`)**：
-   - 含标签前体：87 aa，理论分子量 9.64 kDa，理论等电点 pI 5.86，理论摩尔消光系数 $\varepsilon_{280} = 1,490\text{ M}^{-1}\text{cm}^{-1}$（切除标签后成熟肽需用 A205/BCA 定量），编码区 GC 含量 54.8%；
-   - DNA 订单序列（5' → 3'，全长 281 bp）：
-     `ggaattccatatgGGTAGCAGCCATCATCATCACCACCATAGCAGCGGCGAAAACCTGTATTTTCAGGGCGAAACCGCAGCAGAAGCACGCCGCCGTGCAGAAGCAGAAGCAGCAGCAGCAGCAGCAGAAGAAGCAGCACGCCAACAACGCCTGGCCGCAGAAAAACAGAAAGAACTGCAAGCGCTGGAAGCAGAAGCCCTGAAACTGCTGGAAAAACTGAAAGCAGAAGCCGAAGCAGAAGAACGCGAACGCGAAGCACTGGAGTAATGActcgagaccggg`
-
----
-
-## 8. 规范目录树与文件清单
+## 7. 规范目录树与文件清单
 
 ```text
 project/
@@ -220,7 +198,7 @@ project/
 
 ---
 
-## 9. 运行与复核命令
+## 8. 运行与复核命令
 
 在集群激活 `boltz2` 运行环境后，直接在 `project` 根目录执行以下命令：
 
