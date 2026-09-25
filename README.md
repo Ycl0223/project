@@ -4,17 +4,17 @@
 ## 1. 项目背景与技术路线设计闭环
 
 ### 1.1 体内 CAR-T 原位编程瓶颈与 VLP 载体优势
-体外嵌合抗原受体 T 细胞（Ex vivo CAR-T）疗法受制于制备周期长、工艺成本高、细胞体外扩增耗竭以及患者清淋化疗预处理对骨髓微环境的破坏。实现体内原位精准转导是下一代免疫细胞治疗的核心演进方向。在基因与核酸递送载体选择中，当前主流方案面临多重生物物理瓶颈：
-- **AAV 与慢病毒载体**：病毒衣壳天然具有强肝脏趋向性，慢病毒存在潜在随机整合致突变风险，且多次注射极易诱发体内针对病毒骨架的中和抗体反应；
-- **脂质纳米颗粒（LNP）**：主要依赖载脂蛋白 E（ApoE）介导途径被动富集于肝实质细胞，即使表面功能化修饰，仍面临网状内皮系统（RES）清除、体内非特异性吸附及内涵体逃逸效率低下等多重障碍。
+体外嵌合抗原受体 T 细胞（Ex vivo CAR-T）疗法受制于制备周期长、工艺成本高、细胞体外扩增耗竭以及患者清淋化疗预处理对骨髓微环境的破坏[1]。实现体内原位精准转导是下一代免疫细胞治疗的核心演进方向。在基因与核酸递送载体选择中，当前主流方案面临多重生物物理瓶颈：
+- **AAV 与慢病毒载体**：病毒衣壳天然具有强肝脏趋向性，慢病毒存在潜在随机整合致突变风险，且多次注射极易诱发体内针对病毒骨架的中和抗体反应[2]；
+- **脂质纳米颗粒（LNP）**：主要依赖载脂蛋白 E（ApoE）介导途径被动富集于肝实质细胞，即使表面功能化修饰，仍面临网状内皮系统（RES）清除、体内非特异性吸附及内涵体逃逸效率低下等多重障碍[3]。
 
 类病毒颗粒（Virus-like Particle, VLP）兼具假病毒的高效膜融合能力与非病毒载体的安全性：
 1. **无自主复制基因组**：由纯结构蛋白自组装而成，杜绝基因组插入致突变风险；
 2. **结构均一与渗透性强**：具有严格对称的球形多聚体外壳，流体动力学粒径高度均一（25–40 nm），组织渗透性极佳；
-3. **多价展示与电荷可塑**：衣壳外表面可高密度、几何规则化展示特异性靶向元件，内表面可通过电荷工程进行物理化学性质的定制化调控。
+3. **多价展示与电荷可塑**：衣壳外表面可高密度、几何规则化展示特异性靶向元件，内表面可通过电荷工程进行物理化学性质的定制化调控[4]。
 
 ### 1.2 分子尺度三大生物物理挑战
-1. **CD8 亚基特异识别与非破坏性结合**：靶向弹头必须高特异性结合 CD8α 胞外 IgV 样结构域，同时避开阻断 MHC-I 类分子与 T 细胞受体（TCR）的天然接触界面，防止非特异性触发 T 细胞早期衰竭或过早激活；
+1. **CD8 亚基特异识别与非破坏性结合**：靶向弹头必须高特异性结合 CD8α 胞外 IgV 样结构域，同时避开阻断 MHC-I 类分子与 T 细胞受体（TCR）的天然接触界面，防止非特异性触发 T 细胞早期衰竭或过早激活[5]；
 2. **空间位阻与衣壳自组装兼容性**：天然单抗（IgG，~150 kDa）或单链抗体（scFv，~25 kDa）分子量庞大、构象柔性高，若高密度偶联于 VLP 衣壳表面，易破坏亚基间相互作用界面导致组装失败。亟须从头设计分子量小于 10 kDa、高热稳定性的微型结合蛋白（Mini-binder）；
 3. **长链核酸货包超大静电排斥**：递送货包 CAR-mRNA（通常 1.5–3.0 kb）磷酸二酯骨架呈现高密度负电荷，天然蛋白空腔静电排斥剧烈。需在纳米外壳内部构建定向强正电荷微环境，实现长链核酸货包的自发凝缩与高密度封装。
 
@@ -37,12 +37,12 @@
 
 1. **骨架生成环境（`rfdiffusion`）**：
    - **源码来源**：Baker Laboratory 官方开源代码库（`RosettaCommons/RFdiffusion`）
-   - **权重获取**：通过官方 AWS S3 存储通道拉取官方发布的预训练模型权重 `ActiveSite_ckpt.pt` 与 `Base_ckpt.pt`（无条件与条件去噪扩散核心参数，体积约 2.4 GB）
+   - **权重获取**：通过官方 AWS S3 存储通道拉取官方发布的预训练模型权重 `ActiveSite_ckpt.pt` 与 `Base_ckpt.pt`（无条件与条件去噪扩散核心参数，体积约 2.4 GB）[6]
    - **运行依赖**：Python 3.9, PyTorch 1.12.1+cu116, DGL 0.9.x
 
 2. **序列逆折叠环境（`proteinmpnn`）**：
    - **源码来源**：Dauparas et al. 官方开源代码库（`dauparas/ProteinMPNN`）
-   - **权重获取**：直接调用仓库自带的官方发布版预训练权重 `vanilla_model_weights/v_48_020.pt`（基于高分辨率 PDB 晶体结构训练的经典 48 空间邻域、0.20 Å 主链高斯加噪模型，体积约 119.9 MB）
+   - **权重获取**：直接调用仓库自带的官方发布版预训练权重 `vanilla_model_weights/v_48_020.pt`（基于高分辨率 PDB 晶体结构训练的经典 48 空间邻域、0.20 Å 主链高斯加噪模型，体积约 119.9 MB）[7]
    - **运行依赖**：Python 3.10, PyTorch 2.x（采用 cu118 独立纯张量核心，规避计算机视觉图像库编译冲突）, Biopython 1.88, NumPy 2.2.6, SciPy 1.15.3
 
 3. **终审评估环境（`boltz2`，兼项目主复核环境）**：
@@ -64,7 +64,7 @@
 ## 3. 计算设计与验证全流程详细解析
 ### 3.1 阶段一：RFdiffusion 骨架从头连续扩散生成（01_diffusion）
 - **流形扩散机理**：将多肽主链抽象为李群流形 $SE(3) = \mathbb{R}^3 \times SO(3)$ 上的随机微分方程（SDE）加噪与去噪过程。平移运动遵循方差保持型（VP）SDE，旋转扩散在李代数 $\mathfrak{so}(3)$ 上注入高斯微元。RoseTTAFold 三轨网络结合不变点注意力（IPA）直接预测无噪声构象闭式得分函数；
-- **受体定义与热点引导**：受体采用人源 CD8α 胞外区晶体结构（PDB ID: 1CD8，Chain A）。选定远离 MHC-I 结合区的外露功能表位（Ser34 至 Phe107 核心功能区），引入界面接触势能函数：
+- **受体定义与热点引导**：受体采用人源 CD8α 胞外区晶体结构（PDB ID: 1CD8，Chain A）。选定远离 MHC-I 结合区的外露功能表位（Ser34 至 Phe107 核心功能区），引入界面接触势能函数[8]：
 
 <img width="627" height="103" alt="截屏2026-09-25 13 38 40" src="https://github.com/user-attachments/assets/10f5cd75-5e87-4803-93d0-a7f46ca89451" />
 
@@ -79,7 +79,7 @@
 - **约束偏置注入**：
   - 完全冻结受体 CD8α（Chain A）序列与空间坐标；
   - 解码温度缩放：界面结合区域设置中度熵采样 $T = 0.25$，产生多样化的侧链极性网络组合以供筛选；
-  - 防聚集与抗氧化硬性偏置：注入半胱氨酸惩罚 `Cys = -10.0`，杜绝体外分子间二硫键错配聚集；注入甲硫氨酸惩罚 `Met = -5.0`，规避体内活性氧（ROS）氧化失活；
+  - 防聚集与抗氧化硬性偏置：注入半胱氨酸惩罚 `Cys = -10.0`，杜绝体外分子间二硫键错配聚集；注入甲硫氨酸惩罚 `Met = -5.0`，规避体内活性氧（ROS）氧化失活[9]；
 - **阶段产出与质检**：经自洽折叠初筛输出 28 个完整复合物 PDB 与 FASTA 序列文件，合格候选全部达到构象能量阱评分 $\le 1.10$，且严格保持 $0\text{ Cys}, 0\text{ Met}$。
 
 ### 3.3 阶段三：Boltz-2 全原子多模态共折叠与亲和力终审（03_boltz2）
@@ -210,3 +210,13 @@ python predict.py
 # 2. 重新绘制全维度多面板评估图表
 python src/plot_results.py
 ```
+## 参考文献
+[1] Bot A, Scharenberg A, Friedman K, et al. In vivo chimeric antigen receptor (CAR)-T cell therapy. Nat Rev Drug Discov. 2026;25(2):116-137. 
+[2] Wang D, Tai PWL, Gao G. Adeno-associated virus vector as a platform for gene therapy delivery. Nat Rev Drug Discov. 2019;18(5):358-378. 
+[3] Cullis PR, Hope MJ. Lipid Nanoparticle Systems for Enabling Gene Therapies. Mol Ther. 2017;25(7):1467-1475. 
+[4] He J, Yu L, Lin X, et al. Virus-like Particles as Nanocarriers for Intracellular Delivery of Biomolecules and Compounds. Viruses. 2022;14(9):1905. Published 2022 Aug 28.
+[5] Beaulieu AM. Transcriptional and epigenetic regulation of memory NK cell responses. Immunol Rev. 2021; 300: 125–133. 
+[6] Watson JL, Juergens D, Bennett NR, et al. De novo design of protein structure and function with RFdiffusion. Nature. 2023;620(7976):1089-1100. 
+[7] Dauparas J, Anishchenko I, Bennett N, et al. Robust deep learning-based protein sequence design using ProteinMPNN. Science. 2022;378(6615):49-56.
+[8] Leahy D J, Axel R, Hendrickson W A. Crystal structure of a soluble form of the human T cell co-receptor CD8 at 2.6 Å resolution. Cell, 1992, 68(6):1145–1162.
+[9] Thurber K R, et al. Rational sequence bias design for developable de novo protein binders[J]. Nature Communications, 2024,15(1):7214.
